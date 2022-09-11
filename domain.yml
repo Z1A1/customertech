@@ -1,0 +1,132 @@
+version: "2.0"
+
+intents:
+  - greet
+  - goodbye
+  - affirm
+  - deny
+  - mood_great
+  - mood_unhappy
+  - bot_challenge
+  - contact_us
+  - faq
+  - outofscope
+  - inform
+entities:
+- name  
+slots:
+  name:
+    type: text
+    influence_conversation: false
+  email:
+    type: text
+    influence_conversation: false
+  phone_number:
+    type: text
+    influence_conversation: false
+  message:
+    type: text
+    influence_conversation: false
+  confirm_details:
+    type: any
+    influence_conversation: false
+  breakdwon:
+    type: text
+    influence_conversation: false  
+
+ 
+
+responses:
+  utter_faq/shipping_duration:
+  - text: "Standard Shipping usually takes about 5-7 business days. Premium Shipping takes about 2-3 business days."
+
+  utter_faq/payment_modes:
+  - text: "Payment mode we are supporting:\nCOD\nDebit/Credit cards\nEMI\nWallets."
+
+  utter_faq/track_product:
+  - text: "You can track your product from accounts -> Orders. There you will find list of orders and select one of them to track."
+
+  utter_faq/return_policy:
+  - text: "If you received a product and want to return it. You can return within 14 days of delivery date."
+  utter_greet:
+  - text: "Hi, I am a virtual assistant from Acme here to help you.
+           May I know your name?"
+  
+
+  utter_cheer_up:
+  - text: "Here is something to cheer you up:"
+    image: "https://i.imgur.com/nGF1K8f.jpg"
+
+  utter_did_that_help:
+  - text: "Did that help you?"
+
+  utter_happy:
+  - text: "Great, carry on!"
+
+  utter_goodbye:
+  - text: "Bye"
+  utter_ask_breakdwon:
+  - text: "Hi {name}. I can help you with:
+ 
+           1)Breakdown visit
+           Info on your next breakdown visit
+           2)Check Availability
+           Check availability of required spares
+           3)Steps to Place an Order
+           Stepwise assistance on how to place an order
+           4)Check Order Status
+           Help you get information on your order"
+  utter_ask_name:
+  - text: "Could you please tell me your name?"
+
+  utter_ask_email:
+  - text: "Can you please provide me your email address?"
+
+  utter_ask_phone_number:
+  - text: "Can you please provide me your phone number?"
+  utter_outofscope:
+  - text: "Sorry, I wasn't able to understand. Could you please rephrase it?"
+  utter_ask_message:
+  - text: "Please tell me your query so I can forward that to our team."
+  utter_ask_confirm_details:
+  - buttons:
+    - title: Yes
+      payload: Yes
+    - title: No
+      payload: No
+    text: "These are the details I captured. Please confirm them below:\n Name: {name}\nEmail: {email}\nPhone No: {phone_number}\nMessage: {message}"
+
+
+  utter_iamabot:
+  - text: "I am a bot, powered by Rasa."
+forms:
+  contact_us_form:
+    required_slots:
+      name:
+      - type: from_text
+      email:
+      - type: from_text
+       # entity: email
+      phone_number:
+      - type: from_text
+        #entity: number
+      message:
+      - type: from_text
+      confirm_details:
+      - intent: affirm
+        value: yes
+        type: from_intent
+      - intent: deny
+        value: no
+        type: from_intent
+  technical_form:
+    required_slots:
+      breakdwon:
+      - type: from_text         
+actions: 
+- action_submit
+- action_result 
+- validate_techincal_form
+session_config:
+  session_expiration_time: 60
+  carry_over_slots_to_new_session: true
